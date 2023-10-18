@@ -88,10 +88,15 @@ img {
     .social > li > a:hover {
       color: var(--color-accent); }
 
+.project{
+  margin-top: 3em;
+}
+
 .section {
   padding: 8rem 0; }
   .section__header {
-    margin-bottom: 4rem; }
+    margin-bottom: 4rem; 
+    }
     .section__header--center {
       text-align: center; }
   .section__title {
@@ -323,8 +328,9 @@ img {
     max-width: 65rem;
     width: 90%; }
   .hero__social {
-    position: absolute;
-    bottom: 6rem; }
+    position: relative;
+    bottom: 6rem;
+    }
 
 .portfolio {
   display: flex;
@@ -437,7 +443,11 @@ img {
   flex-wrap: wrap; }
   @media only screen and (max-width: 900px) {
     .about {
-      flex-direction: column-reverse; } }
+      flex-direction: column; } 
+    .about__right{
+      margin-top: 2em;
+    }
+    }
   .about__left {
     flex-basis: 50%; }
     @media only screen and (max-width: 900px) {
@@ -687,6 +697,7 @@ img {
   display: inline-block;
   padding: 5px 10px;
   margin-right: 10px;
+  margin-bottom: 10px;
   border-radius: 5px;
   font-size: 80%;
   font-weight: bold;
