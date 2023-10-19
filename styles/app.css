@@ -331,6 +331,13 @@ img {
     position: relative;
     bottom: 6rem;
     }
+  
+      @media (max-width: 767px) {
+        .hero__social {
+          display: none;
+          /* Pour cacher l'élément sur des écrans de téléphone */
+        }
+      }
 
 .portfolio {
   display: flex;
