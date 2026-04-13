@@ -3,7 +3,7 @@
     "role": "Data Scientist / Applied ML Engineer",
     "company": "Health Data Hub",
     "location": "Paris, France",
-    "period": "Sept 2024 - Present",
+    "period": "2024 - Present",
     "focus": [
       "Large-scale clinical data integration, linking and cleaning 100M+ rows from SNDS and Paris Hospitals EDWs, with scalable ETL workflows and ~150 derived analysis-ready variables.",
       "Synthetic data generation, designing ParaBios, a multi-tabular stochastic generator enabling multi-constraint data synthesis under formal schema specifications at 500 MB/min throughput.",
@@ -28,7 +28,7 @@
     "role": "Data Scientist",
     "company": "SogetiLabs (part of Capgemini)",
     "location": "Issy-les-Moulineaux, France",
-    "period": "Nov 2022 - Sept 2023",
+    "period": "2022 - 2023",
     "focus": [],
     "ownership": "Worked across several applied ML problems: clinical NLP extraction, EEG-based biomarker classification, and LLM-assisted test automation. A broad mandate, handled with a consistent focus on business impact and interpretability.",
     "domains": [
