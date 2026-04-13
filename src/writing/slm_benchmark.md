@@ -6,15 +6,17 @@ excerpt: "What 65,000 predictions on real physician notes reveal about SLM readi
 coverImage: "/assets/images/writing/slm_benchmark.png"
 ---
 
-A hospital wants to automate the extraction of structured information from discharge letters: strip patient identifiers before sharing data for research, flag bacterial infections and their negation status, classify treatment outcomes, build structured patient profiles. The promise of general-purpose small language models (SLMs) replacing task-specific pipelines is appealing: a single 8-billion-parameter model, running on a single GPU, handling all four tasks out of the box.
+A hospital wants to automate the extraction of structured information from discharge letters: strip patient identifiers before sharing data for research, flag bacterial infections and their negation status, classify treatment outcomes, build structured patient profiles. The promise of general-purpose small language models (SLMs) replacing task-specific pipelines is appealing: a single 7-9 billion-parameter model, running on a single GPU, handling all four tasks out of the box.
 
 But does it hold?
 
-We ran seven systems across four clinical information extraction (IE) tasks, generating 65,065 predictions on real physician-written notes. The headline finding inverts the intuition that bigger means better: a 200M-parameter encoder (GLiNER2) outperforms every 7-9B LLM by a factor of three on aggregate zero-shot performance. More surprising still, the bottleneck is not clinical understanding. The models often *know* the right answer but cannot reliably produce a valid structured output. Schema conformity, not medical knowledge, is the binding constraint.
+We ran seven systems across four clinical information extraction tasks, generating 65,065 predictions on real physician-written notes. The headline finding inverts the intuition that bigger means better: a 200M-parameter encoder [GLiNER2](https://github.com/fastino-ai/GLiNER2) outperforms every 7-9B LLM by a factor of three on aggregate zero-shot performance. More surprising still, the bottleneck is not clinical understanding. The models often *know* the right answer but cannot reliably produce a **valid structured output**. Schema conformity is the binding constraint.
 
-This report presents the full results, dissects the failure modes, and offers actionable guidance for clinicians, hospital IT teams, and AI researchers considering SLMs for clinical IE. The evaluation corpus is [PARHAF](https://huggingface.co/datasets/HealthDataHub/PARHAF), a recently released collection of thousands of realistic clinical notes written by practicing physicians in French. While the data is in French, the core findings about architectural fit, output discipline, and few-shot behavior apply broadly to clinical IE regardless of language.
+This report presents the full results, dissects the failure modes, and offers actionable guidance for clinicians, hospital IT teams and AI engineers considering SLMs for clinical IE. The evaluation corpus is [PARHAF](https://huggingface.co/datasets/HealthDataHub/PARHAF), a recently released collection of thousands of realistic clinical notes written by practicing physicians in French. While the data is in French, the core findings about architectural fit, output discipline, and few-shot behavior may apply broadly to clinical IE.
 
-All code, configurations, and predictions are open-source at [github.com/lounesmechouek/parhaf-clibench](https://github.com/lounesmechouek/parhaf-clibench).
+All code and configurations are open-source at [github.com/lounesmechouek/parhaf-clibench](https://github.com/lounesmechouek/parhaf-clibench)
+
+Predictions, errors and insights can be viewed in a complementary interface at [parhaf-clibench.streamlit.app](https://parhaf-clibench.streamlit.app)
 
 ---
 
@@ -22,7 +24,7 @@ All code, configurations, and predictions are open-source at [github.com/lounesm
 
 ### The PARHAF Dataset
 
-Most clinical NLP benchmarks rely on synthetic notes or heavily curated subsets. PARHAF breaks this pattern. Released in late March 2025 by the [Health Data Hub](https://www.health-data-hub.fr/), it is a large-scale corpus of realistic French clinical notes written by practicing physicians. The notes cover 21 medical specialties and reflect the messy, abbreviated, jargon-dense style of real hospital documentation.
+Most clinical NLP benchmarks rely on synthetic notes or heavily curated subsets. PARHAF breaks this pattern. Released in late March 2026 by the [Health Data Hub](https://www.health-data-hub.fr/), it is a large-scale corpus of realistic French clinical notes written by practicing physicians. The notes cover 21 medical specialties and reflect the messy, abbreviated, jargon-dense style of real hospital documentation.
 
 Four annotated subsets define our evaluation tasks:
 
@@ -46,7 +48,7 @@ Each task transforms a clinical discharge note into a list of structured records
 | **Response to treatment** | Treatment outcome classification with justification span | Micro-F1 on `(text, label)` pairs | Six-class problem over specialized vocabulary; small corpus (108 docs) |
 | **Structured scenario** | Eight structured fields (name, age, sex, admission/discharge mode, diagnosis, procedure, type of care) | Micro-F1 on `(text, label)` pairs | Closest to open-domain QA; 8 distinct extraction targets across 21 specialties |
 
-The pseudonymization task is the strictest: the official metric requires exact character offsets `(start, end)`, not just correct entity text. This design choice is deliberate. In a real de-identification pipeline, a span that is off by one character leaks protected health information.
+The pseudonymization task is intentionally the strictest: the evaluation requires exact character offsets `(start, end)`, not just correct entity text. This choice reflects real-world constraints. If spans are not taken into account, the system may mask the wrong segments. For example, the same surface form can appear once as non-sensitive and elsewhere as personal information. Without precise span alignment, both occurrences could be masked indiscriminately. While this over-masking is less critical than failing to mask sensitive data, our design enforces strict span accuracy. This is justified because specialized encoder models such as GLiNER consistently predict correct spans, and we want to explicitly measure whether generators can match this capability.
 
 The structured scenario task sits at the opposite end: it asks the model to extract high-level patient attributes from free text, more like a reading comprehension exercise than a sequence labeling task.
 
@@ -62,10 +64,10 @@ Clinical discharge note
   PSEUDONYMIZATION      INFECTIOLOGY        RESPONSE TO TX       STRUCTURED SCENARIO
   -----------------     ---------------     ---------------      --------------------
   "Jean Dupont"         Klebsiella          Partial response     name: Jean Dupont
-   start=18, end=30      pneumoniae          (justification:     age: 67
+   start=X, end=Y      pneumoniae          (justification:     age: 67
    label: LAST_NAME      label: Bacterie     "amelioration       sex: M
   "12/03/2025"           negation: Present    partielle...")      admission: urgences
-   start=52, end=62                                              diagnosis: pneumonie
+   start=W, end=Z                                              diagnosis: pneumonie
    label: DATE                                                   ...
 ```
 
@@ -126,7 +128,7 @@ All prompts are written in French (matching the corpus language), versioned by S
                                                +----------------+
 ```
 
-*The evaluation pipeline: from raw clinical notes through prompt rendering, model inference, output parsing, task-specific scoring, and bootstrap confidence intervals. Every step is deterministic and reproducible.*
+*The evaluation pipeline: from raw clinical notes through prompt rendering, model inference, output parsing, task-specific scoring, and bootstrap confidence intervals.*
 
 ---
 
@@ -152,7 +154,7 @@ The aggregate hides important task-level dynamics. The per-task forest plots rev
 
 *Per-task forest plot (zero-shot). GLiNER2 dominates pseudonymization (F1 = 0.47) and infectiology (F1 = 0.19). On scenario extraction, Ministral and Qwen overtake the encoder.*
 
-**Pseudonymization is nearly unsolved by LLMs.** The official metric requires exact `(start, end)` character offsets. Every LLM scores below F1 = 0.002 on zero-shot, effectively zero. GLiNER2, designed for span extraction, reaches 0.468. The gap is not about entity recognition: when we relax the metric to normalized text matching (ignoring offsets), Ministral scores 0.218 and Qwen scores 0.292 on zero-shot. The models identify the right entities but cannot count characters. This is a fundamental limitation of autoregressive decoding for positional tasks, not a prompting failure.
+**Pseudonymization is nearly unsolved by LLMs.** The official metric requires exact `(start, end)` character offsets. Every LLM scores below F1 = 0.002 on zero-shot, effectively zero. GLiNER2, designed for span extraction, reaches 0.468. The gap is not about entity recognition: when we relax the metric to normalized text matching (ignoring offsets), Ministral scores 0.218 and Qwen scores 0.292 on zero-shot. The models identify the right entities but cannot count characters. This is a fundamental limitation of autoregressive decoding for positional tasks.
 
 ![Pseudonymization leaderboard (zero-shot). All LLMs cluster near zero while GLiNER2 stands at 0.47.](/assets/images/writing/leaderboard_zs_pseudo.png)
 
@@ -182,7 +184,7 @@ The few-shot track adds three fixed demonstration examples to the prompt. Everyt
 
 Three distinct patterns emerge.
 
-**Pattern 1: Recovery from collapse (Gemma2-9B).** Gemma2 zero-shot scores effectively zero on scenario (F1 = 0.000) because it produces 0% schema-conforming outputs. Its few-shot scenario F1 jumps to **0.466**, the highest of any system on any task. The +0.466 delta is not "learning from examples" in any meaningful sense. The demonstrations teach the model to produce valid JSON. This is recovery from an output format failure, not acquisition of clinical knowledge.
+**Pattern 1: Recovery from collapse (Gemma2-9B).** Gemma2 zero-shot scores effectively zero on scenario (F1 = 0.000) because it produces 0% schema-conforming outputs. Its few-shot scenario F1 jumps to **0.466**, the highest of any system on any task. The +0.466 delta is not "learning from examples" in any meaningful sense. The demonstrations teach the model to produce valid JSON. This is recovery from an output format failure.
 
 **Pattern 2: Genuine improvement (Ministral, Qwen).** Ministral gains +0.127 on scenario (from 0.240 to 0.367) and +0.148 on infectiology (from 0.002 to 0.149). Qwen gains +0.113 on infectiology and +0.107 on response. The confidence intervals exclude zero in every case. These models were already producing valid outputs on zero-shot; the demonstrations refine their extraction patterns.
 
@@ -218,7 +220,7 @@ Consider Gemma2-9B on zero-shot. Its schema conformity is **0%** on response and
 
 *Empty output rate (proportion of documents where the model produces no extractable records). The mirror image of schema conformity: Gemma2 zero-shot returns empty outputs for 100% of scenario documents.*
 
-A linear regression of per-task F1 on schema conformity, empty output rate, and token budget confirms that **schema conformity is the single most explanatory variable** of performance spread across models. The practical implication is that improvements in output-format reliability (via better constrained decoding, format-aware fine-tuning, or prompt engineering) would yield larger F1 gains than improvements in clinical understanding.
+A linear regression of per-task F1 on schema conformity, empty output rate, and token budget confirms that **schema conformity is the single most explanatory variable** of performance spread across models. The practical implication is that improvements in output-format reliability (via better constrained decoding, format-aware fine-tuning, or prompt engineering) would yield larger F1 gains than improvements in *(proxies of)* clinical understanding.
 
 > **Key finding:** The dominant bottleneck for SLMs on clinical IE is not medical knowledge but output discipline. Schema conformity explains more F1 variance than any clinical understanding metric.
 
@@ -228,7 +230,7 @@ We classify every document-level error into categories based on what went wrong.
 
 **Invalid JSON errors** occur when the model cannot produce a parseable JSON envelope. Gemma2 zero-shot generates ~4,960 invalid JSON errors. The model's autoregressive decoding breaks down when faced with the structural constraints of the expected output format. This is a generation discipline problem that constrained decoding should, in principle, address (vLLM's xgrammar backend was active, but it enforces JSON syntax, not semantic validity).
 
-**Offset drift errors** occur when the model produces syntactically valid JSON with plausible-looking content, but the character offsets are wrong. Aya zero-shot generates ~3,440 offset drift errors. The model "knows" the entities (the text fields are often correct) but cannot compute or copy the right byte positions. This is an architectural limitation: autoregressive models do not have a native mechanism for counting characters in the input.
+**Offset drift errors** occur when the model produces syntactically valid JSON with plausible-looking content, but the character offsets are wrong. This metric is tracked on pseudonymization where positions matters. Aya zero-shot generates ~3,440 offset drift errors. The model "knows" the entities (the text fields are often correct) but cannot compute or copy the right byte positions. This is an architectural limitation: autoregressive models do not have a native mechanism for counting characters in the input.
 
 Ministral (133 invalid JSON, 1 offset drift on zero-shot) and Qwen (555 invalid JSON, 2 offset drift) are the cleanest models in output discipline, consistent with their leading LLM scores.
 
@@ -313,10 +315,9 @@ The practical bottleneck for clinical AI deployment is often not "does the model
 Several directions could narrow the gap:
 
 1. **Supervised fine-tuning** on PARHAF or similar clinical corpora is the natural next step. Even lightweight LoRA adaptation could dramatically improve output discipline and task-specific extraction.
-2. **Better constrained decoding**: the vLLM xgrammar backend enforces JSON syntax but not semantic validity (e.g., offset correctness). Constrained decoding that validates spans against the source text during generation could address offset drift.
 3. **Hybrid pipelines**: use GLiNER2 (or a similar encoder) for span-labeling tasks and an LLM for structured extraction. The two architectures are complementary, not competing.
-4. **Advanced prompting strategies**: chain-of-thought for offset computation, self-consistency for robust extraction, or tool-augmented approaches where the model calls a character-counting utility.
-5. **Larger models**: systems above 9B parameters, or reasoning-specialized models, may close the gap, though at higher computational cost.
+3. **Advanced prompting strategies**: chain-of-thought for offset computation, self-consistency for robust extraction, or tool-augmented approaches where the model calls a character-counting utility.
+4. **Larger models**: systems above 9B parameters, or reasoning-specialized models, may close the gap, though at higher computational cost.
 
 ---
 
@@ -344,23 +345,19 @@ A handful of caveats bound the interpretation of these results.
 
 ### For clinicians and hospital IT teams
 
-1. **Do not deploy any tested system for autonomous pseudonymization.** Even GLiNER2, the best performer at F1 = 0.47, misses too many identifiers for unsupervised use. Use it as a pre-annotator with mandatory human review.
+1. **Do not deploy any tested system for autonomous pseudonymization without any further tuning.** Even GLiNER2, the best performer at F1 = 0.47, misses too many identifiers for unsupervised use. Use it as a pre-annotator with mandatory human review. More precise parameter tuning, such as adjusting GLiNER’s cosine similarity threshold in favor of a better recall, and/or targeted model fine-tuning could help improve robustness.
 
 2. **For structured scenario extraction, Ministral-8B few-shot is the strongest SLM option** (F1 = 0.37). Plan for human-in-the-loop validation. Gemma2-9B few-shot reaches higher F1 (0.47) but at double the latency and with lower robustness.
 
-3. **Budget 10-15x more compute for LLM-based pipelines** compared to encoder-based ones. GLiNER2 processes documents at ~1 second; LLMs require 13-38 seconds.
+3. **Budget 10-15x more compute for LLM-based pipelines** compared to encoder-based ones. GLiNER2 processes documents at ~1 second; LLMs require 13-38 seconds (including time to first token delay).
 
-### For AI researchers
+### For AI engineers / scientists
 
 4. **Offset-aware decoding is an open research problem.** Autoregressive models fundamentally struggle with character-level positional constraints. This is not a prompting problem but an architectural one. Solutions might involve pointer networks, copy mechanisms, or hybrid architectures that combine span scoring with text generation.
 
 5. **Report robustness metrics alongside accuracy** in clinical NLP evaluations. A model that produces correct extractions 40% of the time and invalid outputs 60% of the time is a broken pipeline, not a 0.40-F1 system. Schema conformity, empty output rate, and JSON validity should be standard columns in every benchmark table.
 
 6. **Replication on English clinical corpora** (i2b2, n2c2) would test whether the meta-level findings of this study hold cross-linguistically. We expect the architectural-fit and output-discipline observations to generalize; the absolute F1 numbers will differ.
-
-### For the PARHAF and Health Data Hub community
-
-7. **Consider releasing relaxed-offset evaluation tracks** alongside exact-match, to separate "clinical understanding" from "positional accuracy." This would enable more informative comparisons between architectures.
 
 ---
 
@@ -391,8 +388,8 @@ The benchmark also reveals that architectural fit matters more than parameter co
 
 PARHAF, as the first large-scale corpus of realistic physician-written clinical notes with multi-task annotations, provides valuable infrastructure for this kind of rigorous evaluation. We hope this benchmark serves as a baseline that future work on fine-tuning, hybrid architectures, and advanced prompting will improve upon, and that replication on other languages and clinical corpora will test the generality of these findings.
 
-The gap between SLM hype and clinical readiness is real but measurable. Measurable problems are solvable problems. The code, data references, and all 65,000 predictions are [open-source](https://github.com/lounesmechouek/parhaf-clibench).
+The gap between SLM hype and clinical readiness is real but measurable. Measurable problems are solvable problems. The code and data references [open-source](https://github.com/lounesmechouek/parhaf-clibench).
 
 ---
 
-*Benchmark run: April 2025. Models evaluated with weights available as of April 2025. PARHAF dataset version: March 2025 release.*
+*Benchmark run: April 2026. Models evaluated with weights available as of April 2026. PARHAF dataset version: March 2026 release.*
