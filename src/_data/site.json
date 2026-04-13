@@ -1,0 +1,38 @@
+{
+  "name": "Lounes Mechouek",
+  "title": "Applied AI & Engineering",
+  "tagline": "At the Intersection of Engineering and Applied Intelligence.",
+  "description": "Developing robust methodologies and production-grade systems for high-stakes AI, with a focus on methodology, clinical NLP, high-quality synthetic data generation, and LLM-driven systems.",
+  "heroImage": "/assets/images/hero.png",
+  "portraitImage": "/assets/images/portrait.PNG",
+  "email": "mechouek.contact@gmail.com",
+  "links": {
+    "github": "https://github.com/lounesmechouek",
+    "linkedin": "https://linkedin.com/in/lounes-mechouek",
+    "medium": "https://medium.com/@loumech"
+  },
+  "focusAreas": [
+    {
+      "number": "01",
+      "title": "Reliable AI Systems",
+      "description": "Building controlled LLM, RAG and agentic systems with validation evaluation, and deterministic safeguards."
+    },
+    {
+      "number": "02",
+      "title": "Clinical Decision Support",
+      "description": "Designing AI and NLP systems that support clinicians, streamline workflows, and improve patient care."
+    },
+    {
+      "number": "03",
+      "title": "Custom AI Systems",
+      "description": "Developing tailored systems for domain-specific needs in modeling, probabilistic reasong, and decision workflows."
+    },
+    {
+      "number": "04",
+      "title": "Applied Research",
+      "description": "Creating rigorous evaluation setups and open tools that help others study, test, and extend systems."
+    }
+  ],
+  "footerText": "Research-minded. Engineering-grounded.",
+  "copyright": "2026"
+}

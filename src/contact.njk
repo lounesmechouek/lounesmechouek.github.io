@@ -1,0 +1,106 @@
+---
+layout: base.njk
+activePage: contact
+pageTitle: Contact
+permalink: /contact/
+---
+
+<section class="pt-40 pb-20">
+  <!-- Hero -->
+  <div class="max-w-7xl mx-auto px-8 mb-32">
+    <div class="grid grid-cols-1 md:grid-cols-12 gap-12 items-start">
+      <div class="md:col-span-8">
+        <h1 class="font-headline text-[3.5rem] leading-[1.1] text-on-surface mb-8">
+          Get in touch for inquiries and collaborations.
+        </h1>
+        <p class="font-body text-xl text-on-surface-variant max-w-2xl leading-relaxed">
+          Open to selected opportunities and thoughtful conversations. Whether it's a technical deep-dive into machine learning or a potential partnership, I look forward to connecting.
+        </p>
+      </div>
+      <div class="md:col-span-4 flex justify-end">
+        <div class="w-full aspect-[4/5] bg-surface-container-low rounded-xl overflow-hidden">
+          <img class="w-full h-full object-cover grayscale opacity-90 transition-opacity hover:opacity-100 duration-500" src="/assets/images/contact.PNG" alt="Contact illustration"/>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Grid -->
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Email -->
+      <a class="group block p-10 bg-surface-container-low hover:bg-surface-container-high transition-colors duration-300 rounded-lg" href="mailto:{{ site.email }}">
+        <div class="flex flex-col h-full justify-between">
+          <div>
+            <span class="font-label text-[0.75rem] tracking-widest uppercase font-semibold text-primary mb-6 block">Direct Inquiry</span>
+            <h2 class="font-headline text-2xl text-on-surface mb-2">Email</h2>
+          </div>
+          <div class="flex items-center justify-between mt-12">
+            <span class="font-body text-on-surface-variant group-hover:text-secondary transition-colors duration-300">{{ site.email }}</span>
+            <span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+      <!-- LinkedIn -->
+      <a class="group block p-10 bg-surface-container-low hover:bg-surface-container-high transition-colors duration-300 rounded-lg" href="{{ site.links.linkedin }}" target="_blank" rel="noopener">
+        <div class="flex flex-col h-full justify-between">
+          <div>
+            <span class="font-label text-[0.75rem] tracking-widest uppercase font-semibold text-primary mb-6 block">Professional Network</span>
+            <h2 class="font-headline text-2xl text-on-surface mb-2">LinkedIn</h2>
+          </div>
+          <div class="flex items-center justify-between mt-12">
+            <span class="font-body text-on-surface-variant group-hover:text-secondary transition-colors duration-300">Profile</span>
+            <span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+      <!-- GitHub -->
+      <a class="group block p-10 bg-surface-container-low hover:bg-surface-container-high transition-colors duration-300 rounded-lg" href="{{ site.links.github }}" target="_blank" rel="noopener">
+        <div class="flex flex-col h-full justify-between">
+          <div>
+            <span class="font-label text-[0.75rem] tracking-widest uppercase font-semibold text-primary mb-6 block">Source Code</span>
+            <h2 class="font-headline text-2xl text-on-surface mb-2">GitHub</h2>
+          </div>
+          <div class="flex items-center justify-between mt-12">
+            <span class="font-body text-on-surface-variant group-hover:text-secondary transition-colors duration-300">Repositories</span>
+            <span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+      <!-- Medium -->
+      <a class="group block p-10 bg-surface-container-low hover:bg-surface-container-high transition-colors duration-300 rounded-lg" href="{{ site.links.medium }}" target="_blank" rel="noopener">
+        <div class="flex flex-col h-full justify-between">
+          <div>
+            <span class="font-label text-[0.75rem] tracking-widest uppercase font-semibold text-primary mb-6 block">Publications</span>
+            <h2 class="font-headline text-2xl text-on-surface mb-2">Medium</h2>
+          </div>
+          <div class="flex items-center justify-between mt-12">
+            <span class="font-body text-on-surface-variant group-hover:text-secondary transition-colors duration-300">Articles</span>
+            <span class="material-symbols-outlined text-secondary opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300">arrow_forward</span>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <!-- Availability -->
+  <div class="max-w-7xl mx-auto px-8 mt-32">
+    <div class="bg-surface-container-low p-12 rounded-xl flex flex-col md:flex-row gap-12 items-center justify-between">
+      <div class="max-w-xl">
+        <div class="flex items-center gap-3 mb-6">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-secondary"></span>
+          </span>
+          <span class="font-label text-[0.75rem] tracking-widest uppercase font-semibold text-on-surface">Currently Accepting Selective Engagements</span>
+        </div>
+        <p class="font-headline text-2xl leading-snug text-on-surface">
+          "Thoughtful communication leads to meaningful research. I aim to respond to technical inquiries within 48 hours."
+        </p>
+      </div>
+      <div class="hidden lg:block w-32 h-32 opacity-10">
+        <span class="material-symbols-outlined text-[8rem]">mark_email_read</span>
+      </div>
+    </div>
+  </div>
+</section>

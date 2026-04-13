@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>{{ pageTitle or site.name }}, {{ site.title }}</title>
+  <meta name="description" content="{{ pageDescription or site.description }}"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&display=swap" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="icon" type="image/png" href="/assets/images/portfolio_logo.png"/>
+  <link rel="stylesheet" href="/assets/css/style.css"/>
+  <style>
+    @view-transition {
+      navigation: auto;
+    }
+  </style>
+</head>
+<body>
+  {% include "nav.njk" %}
+
+  <main class="pt-20">
+    {{ content | safe }}
+  </main>
+
+  {% include "footer.njk" %}
+</body>
+</html>

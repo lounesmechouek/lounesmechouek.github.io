@@ -1,0 +1,35 @@
+{
+  "shortBio": "AI & ML Engineer working at the intersection of large-scale health data systems, clinical NLP, and applied machine learning.",
+  "longBio": [
+    "My work in AI grew out of two complementary foundations: software engineering at ESI Algiers and a research-oriented Master's in Machine Learning at Universit\u00e9 Paris Cit\u00e9. That combination \u2014 systems architecture and statistical rigor \u2014 defines how I approach building things that need to work at scale and under constraint.",
+    "I currently work at the Health Data Hub in Paris, building applied ML solutions on national health databases and hospital data warehouses. The environment is demanding: datasets spanning hundreds of millions of records, strict privacy requirements, and clinical workflows where extraction accuracy directly impacts patient care. My work ranges from large-scale data linkage and predictive modeling to clinical NLP pipelines and synthetic data generation under formal schema constraints.",
+    "Before joining the Health Data Hub, I worked at SogetiLabs (Capgemini) on NLP-based information extraction from electronic health records and biomarker modeling from EEG signals. The thread across these roles is consistent: applying ML where the margin for error is thin and the impact is tangible."
+  ],
+  "currentInquiries": [
+    {
+      "number": "01",
+      "area": "Data Engineering",
+      "title": "Synthetic Data at Scale",
+      "description": "Generating realistic multi-tabular synthetic data under structural and statistical constraints, without access to real reference datasets \u2014 across schemas with hundreds of tables and thousands of variables."
+    },
+    {
+      "number": "02",
+      "area": "Applied AI",
+      "title": "LLM Systems for High-Stakes Environments",
+      "description": "Designing and evaluating agentic, RAG, and hybrid LLM architectures with the observability, factuality, and validation layers required when credibility of outputs is the primary success factor."
+    },
+    {
+      "number": "03",
+      "area": "AI & Healthcare",
+      "title": "ML for Clinical Impact",
+      "description": "Exploring how AI and ML can meaningfully improve patient care and support practitioners, while navigating the constraints of reliability, privacy, and trust that healthcare demands."
+    }
+  ],
+  "quote": "The goal is not to simulate intelligence, but to architect the systems that allow it to emerge organically.",
+  "manifestoTitle": "On rigor, creativity, and trust.",
+  "manifesto": "The best engineering comes from the intersection of discipline and curiosity \u2014 the rigor to build systems that hold up under scrutiny, and the creativity to find solutions where none seemed obvious. I am committed to developing AI that serves the general interest: tools that augment human judgment, not bypass it.",
+  "manifestoCta": {
+    "label": "Get in touch about your project",
+    "url": "/contact/"
+  }
+}

@@ -1,0 +1,38 @@
+---
+layout: base.njk
+activePage: writing
+---
+
+<article class="pt-32 pb-24">
+  <!-- Article Header -->
+  <header class="max-w-3xl mx-auto px-8 mb-16">
+    <div class="flex items-center gap-4 mb-8">
+      <span class="text-xs font-bold uppercase tracking-widest text-secondary">{{ category }}</span>
+      <span class="h-px w-8 bg-outline-variant opacity-30"></span>
+      <span class="text-xs font-medium text-outline">{{ date | dateFormat("short") }} &bull; {{ content | readingTime }} MIN READ</span>
+    </div>
+    <h1 class="font-headline text-4xl md:text-6xl leading-[1.1] mb-8">{{ title }}</h1>
+    {% if excerpt %}
+    <p class="text-xl text-on-surface-variant font-light leading-relaxed">{{ excerpt }}</p>
+    {% endif %}
+  </header>
+
+  {% if coverImage %}
+  <div class="max-w-5xl mx-auto px-8 mb-16">
+    <img class="w-full rounded-lg" src="{{ coverImage }}" alt="{{ title }}"/>
+  </div>
+  {% endif %}
+
+  <!-- Article Body -->
+  <div class="max-w-3xl mx-auto px-8 prose-article">
+    {{ content | safe }}
+  </div>
+
+  <!-- Back to Writing -->
+  <div class="max-w-3xl mx-auto px-8 mt-24 pt-12 border-t border-outline-variant/20">
+    <a href="/writing/" class="inline-flex items-center gap-2 font-medium text-secondary hover:gap-4 transition-all">
+      <span class="material-symbols-outlined">arrow_back</span>
+      Back to all articles
+    </a>
+  </div>
+</article>

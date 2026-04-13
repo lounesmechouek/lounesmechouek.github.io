@@ -1,0 +1,111 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply font-body bg-surface text-on-surface antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary-container text-on-primary-container;
+  }
+
+  h1, h2, h3 {
+    @apply font-headline;
+  }
+}
+
+@layer components {
+  .nav-link {
+    @apply text-slate-500 hover:text-slate-900 transition-colors duration-300 font-headline text-lg tracking-tight;
+  }
+
+  .nav-link-active {
+    @apply text-indigo-600 font-medium border-b border-indigo-600 pb-1 font-headline text-lg tracking-tight;
+  }
+
+  /* Article prose styling for markdown content */
+  .prose-article {
+    @apply text-on-surface leading-relaxed;
+  }
+
+  .prose-article h1 {
+    @apply font-headline text-4xl md:text-5xl mb-8 mt-16 first:mt-0;
+  }
+
+  .prose-article h2 {
+    @apply font-headline text-3xl mb-6 mt-12;
+  }
+
+  .prose-article h3 {
+    @apply font-headline text-2xl mb-4 mt-10;
+  }
+
+  .prose-article p {
+    @apply text-lg mb-6 text-on-surface-variant leading-relaxed;
+  }
+
+  .prose-article ul, .prose-article ol {
+    @apply mb-6 pl-6 text-lg text-on-surface-variant;
+  }
+
+  .prose-article ul {
+    @apply list-disc;
+  }
+
+  .prose-article ol {
+    @apply list-decimal;
+  }
+
+  .prose-article li {
+    @apply mb-2 leading-relaxed;
+  }
+
+  .prose-article blockquote {
+    @apply border-l-2 border-secondary pl-6 my-8 italic text-on-surface-variant;
+  }
+
+  .prose-article code {
+    @apply bg-surface-container-highest px-2 py-0.5 rounded text-sm font-mono;
+  }
+
+  .prose-article pre {
+    @apply bg-surface-container-lowest p-6 rounded-lg overflow-x-auto mb-8 border border-outline-variant/10;
+  }
+
+  .prose-article pre code {
+    @apply bg-transparent p-0 text-sm leading-relaxed;
+  }
+
+  .prose-article img {
+    @apply rounded-lg my-8 w-full;
+  }
+
+  .prose-article a {
+    @apply text-secondary hover:text-secondary-dim border-b border-secondary/30 hover:border-secondary transition-colors;
+  }
+
+  .prose-article hr {
+    @apply my-12 border-outline-variant/20;
+  }
+
+  .prose-article table {
+    @apply w-full mb-8 text-sm;
+  }
+
+  .prose-article th {
+    @apply text-left p-3 bg-surface-container-low font-semibold text-xs uppercase tracking-wider;
+  }
+
+  .prose-article td {
+    @apply p-3 border-b border-outline-variant/10;
+  }
+}
+
+@layer utilities {
+  .bg-glass {
+    backdrop-filter: blur(24px);
+  }
+}

@@ -1,0 +1,44 @@
+[
+  {
+    "role": "Data Scientist / Applied ML Engineer",
+    "company": "Health Data Hub",
+    "location": "Paris, France",
+    "period": "Sept 2024 - Present",
+    "focus": [
+      "Large-scale clinical data integration, linking and cleaning 100M+ rows from SNDS and Paris Hospitals EDWs, with scalable ETL workflows and ~150 derived analysis-ready variables.",
+      "Synthetic data generation, designing ParaBios, a multi-tabular stochastic generator enabling multi-constraint data synthesis under formal schema specifications at 500 MB/min throughput.",
+      "Clinical NLP anonymization, implementing ASR/NER pipelines (Whisper + GLiNER) for emergency call data, achieving ~92% anonymization recall."
+    ],
+    "ownership": "Full-stack ownership across a live healthcare data platform, from ingestion pipelines to deployed predictive models. Contributed to several internal tooling initiatives alongside the core modelling work, including documentation automation and structured data generation.",
+    "domains": [
+      "Clinical NLP",
+      "Synthetic Data",
+      "Healthcare AI",
+      "MLOps"
+    ],
+    "links": [
+      {
+        "label": "EMOIS 2026 Talk",
+        "url": "https://www.emois.org/wp-content/uploads/2026/02/2026-EMOIS_Programme-def-A3-1.pdf#page=4"
+      }
+    ],
+    "style": "highlighted"
+  },
+  {
+    "role": "Data Scientist",
+    "company": "SogetiLabs (part of Capgemini)",
+    "location": "Issy-les-Moulineaux, France",
+    "period": "Nov 2022 - Sept 2023",
+    "focus": [],
+    "ownership": "Worked across several applied ML problems: clinical NLP extraction, EEG-based biomarker classification, and LLM-assisted test automation. A broad mandate, handled with a consistent focus on business impact and interpretability.",
+    "domains": [
+      "NLP",
+      "EHR Extraction",
+      "EEG",
+      "Few-shot LLMs",
+      "Clinical Data"
+    ],
+    "links": [],
+    "style": "default"
+  }
+]

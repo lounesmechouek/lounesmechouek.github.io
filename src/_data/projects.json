@@ -1,0 +1,50 @@
+[
+  {
+    "title": "PARHAF CliBench",
+    "slug": "parhaf-clibench",
+    "category": "CLINICAL NLP EVALUATION",
+    "status": "2026 / PUBLISHED",
+    "summary": "A benchmark for measuring how 7B-9B language models handle structured information extraction on real French clinical notes.",
+    "whyItMatters": "Hospitals need reliable extraction for de-identification, infection tracking, and structured reporting. This benchmark tests whether compact open models are actually ready for those workflows.",
+    "technicalChallenge": "Clinical IE requires more than medical knowledge: models must emit valid structured outputs, preserve exact spans, and stay robust across heterogeneous tasks and note styles.",
+    "methodology": "Evaluated 6 instruction-tuned LLMs and GLiNER2 on 4 PARHAF tasks, covering 5,005 documents and 65,065 predictions, with micro-F1, schema conformity, empty-output rates, latency, and bootstrap confidence intervals.",
+    "coverImage": "/assets/images/writing/slm_benchmark.png",
+    "links": {
+      "repo": "https://github.com/lounesmechouek/parhaf-clibench",
+      "report": "/writing/report/",
+      "demo": "https://parhaf-clibench.streamlit.app/"
+    },
+    "featured": true,
+    "layout": "full"
+  },
+  {
+    "title": "Asifonix",
+    "slug": "asifonix",
+    "category": "REALTIME AUDIO TRANSCRIPTION",
+    "status": "2026 / ONGOING",
+    "summary": "A low-latency ASR system thought for multiuser real-time applications in controlled environments.",
+    "whyItMatters": "Performant ASR tools exist, but sensitive environments like healthcare and other regulated industries, cannot rely on third-party APIs. Deploying reliable real-time transcription on-premise often means building from scratch.",
+    "technicalChallenge": "Delivering stable, incremental text across concurrent sessions without the latency or privacy tradeoffs of cloud-hosted alternatives.",
+    "methodology": "Three-layer on-premise system: web client, FastAPI gateway with admission control, and a Faster-Whisper gRPC backend. Validated under load from 5 to 500 concurrent users.",
+    "coverImage": "/assets/images/projects/vector-cover.png",
+    "links": {},
+    "featured": true,
+    "layout": "wide"
+  },
+  {
+    "title": "GetThePlate",
+    "slug": "gettheplate",
+    "category": "LICENSE PLATE RECOGNITION",
+    "status": "2022 / PUBLISHED",
+    "summary": "End-to-end automatic license plate recognition system based on deep learning.",
+    "whyItMatters": "Few reliable systems handle the specificities of Algerian license plates. The contribution is both the Deep Learning models and a complete software suite (rest API and mobile app), ready for field deployment.",
+    "technicalChallenge": "No public dataset existed for Algerian plates. Building a reliable end-to-end pipeline meant going from data collection to model fine-tuning and serving.",
+    "methodology": "Custom dataset of 2,500 augmented images gathering, labelisation, quality and representativity evaluation. Computer Vision Model trainig and evaluation, MLOps and model serving.",
+    "coverImage": "/assets/images/projects/aether-cover.png",
+    "links": {
+      "repo": "https://github.com/lounesmechouek/AutomaticLPDR"
+    },
+    "featured": true,
+    "layout": "narrow"
+  }
+]

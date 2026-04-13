@@ -1,0 +1,133 @@
+---
+layout: base.njk
+activePage: writing
+pageTitle: Writing
+permalink: /writing/
+---
+
+<section class="pt-32 max-w-7xl mx-auto px-8">
+  <!-- Header -->
+  <header class="mb-24">
+    <h1 class="font-headline text-6xl md:text-7xl font-normal leading-tight tracking-tight mb-8">
+      Inquiry &amp; <span class="italic">Synthesis.</span>
+    </h1>
+    <p class="max-w-2xl text-xl text-on-surface-variant font-light leading-relaxed">
+      A repository of technical reports, engineering logs, and critical commentary on the evolving landscape of Machine Intelligence.
+    </p>
+  </header>
+
+  {% set allPosts = collections.posts %}
+
+  <!-- Category Filter -->
+  <div class="flex flex-wrap gap-4 mb-16 items-center">
+    <span class="text-xs font-bold uppercase tracking-widest text-outline">Filter by Archive</span>
+    <button class="filter-btn active px-6 py-2 rounded-full text-sm font-medium transition-colors bg-on-surface text-surface" data-filter="all">All Entries</button>
+    {% set usedCategories = [] %}
+    {% for post in allPosts %}
+      {% if post.data.category and post.data.category not in usedCategories %}
+        {% set usedCategories = usedCategories.concat([post.data.category]) %}
+      {% endif %}
+    {% endfor %}
+    {% for cat in usedCategories %}
+    <button class="filter-btn px-6 py-2 rounded-full text-sm font-medium transition-colors bg-surface-container-high text-on-surface-variant hover:bg-surface-container-highest hover:text-on-surface" data-filter="{{ cat }}">{{ cat }}</button>
+    {% endfor %}
+  </div>
+
+  <!-- Articles -->
+  {% if allPosts.length %}
+    <!-- Featured (first post) -->
+    {% set featured = allPosts[0] %}
+    <article class="grid grid-cols-1 md:grid-cols-12 gap-12 items-center mb-32 group" data-category="{{ featured.data.category }}">
+      {% if featured.data.coverImage %}
+      <div class="md:col-span-7 overflow-hidden rounded-lg bg-surface-container-low">
+        <img class="w-full aspect-[16/9] object-cover grayscale opacity-80 group-hover:opacity-100 transition-opacity duration-500" src="{{ featured.data.coverImage }}" alt="{{ featured.data.title }}"/>
+      </div>
+      {% endif %}
+      <div class="{{ 'md:col-span-5' if featured.data.coverImage else 'md:col-span-12' }}">
+        <div class="flex items-center gap-4 mb-6">
+          <span class="text-xs font-bold uppercase tracking-widest text-secondary">{{ featured.data.category }}</span>
+          <span class="h-px w-8 bg-outline-variant opacity-30"></span>
+          <span class="text-xs font-medium text-outline">{{ featured.date | dateFormat("month-year") }} &bull; {{ featured.content | readingTime }} MIN READ</span>
+        </div>
+        <a href="{{ featured.url }}">
+          <h2 class="font-headline text-4xl md:text-5xl leading-[1.1] mb-6 group-hover:text-secondary transition-colors duration-300">
+            {{ featured.data.title }}
+          </h2>
+        </a>
+        <p class="text-lg text-on-surface-variant mb-8 font-light leading-relaxed">
+          {{ featured.data.excerpt }}
+        </p>
+        <a href="{{ featured.url }}" class="flex items-center gap-2 font-medium text-sm group-hover:translate-x-2 transition-transform duration-300">
+          Read the Full Manuscript
+          <span class="material-symbols-outlined text-sm">arrow_forward</span>
+        </a>
+      </div>
+    </article>
+
+    <!-- Rest of articles -->
+    {% if allPosts.length > 1 %}
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-24 gap-y-32">
+      {% for post in allPosts %}
+        {% if not loop.first %}
+        <article class="flex flex-col" data-category="{{ post.data.category }}">
+          {% if post.data.coverImage %}
+          <div class="mb-8 overflow-hidden rounded-lg bg-surface-container-low">
+            <img class="w-full aspect-[4/3] object-cover grayscale hover:grayscale-0 transition-all duration-700" src="{{ post.data.coverImage }}" alt="{{ post.data.title }}"/>
+          </div>
+          {% endif %}
+          <div class="flex items-center gap-4 mb-4">
+            <span class="text-xs font-bold uppercase tracking-widest text-on-surface-variant">{{ post.data.category }}</span>
+            <span class="text-xs text-outline">{{ post.date | dateFormat("month-year") }}</span>
+          </div>
+          <a href="{{ post.url }}">
+            <h3 class="font-headline text-3xl mb-4 leading-tight hover:text-secondary transition-colors">
+              {{ post.data.title }}
+            </h3>
+          </a>
+          <p class="text-on-surface-variant mb-6 line-clamp-3 font-light">
+            {{ post.data.excerpt }}
+          </p>
+          <div class="mt-auto pt-6 border-t border-outline-variant/10 flex items-center justify-between">
+            <span class="text-xs font-medium text-outline italic">{{ post.content | readingTime }} min read</span>
+          </div>
+        </article>
+        {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+
+  {% else %}
+    <div class="py-24 text-center">
+      <p class="text-on-surface-variant text-lg italic">No articles published yet.</p>
+      <p class="text-outline mt-4">Add markdown files to <code class="bg-surface-container-highest px-2 py-1 rounded text-sm">src/writing/</code> to get started.</p>
+    </div>
+  {% endif %}
+</section>
+
+<script>
+  (function () {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const articles = document.querySelectorAll('article[data-category]');
+
+    buttons.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const filter = btn.dataset.filter;
+
+        buttons.forEach(function (b) {
+          b.classList.remove('active', 'bg-on-surface', 'text-surface');
+          b.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+        });
+        btn.classList.add('active', 'bg-on-surface', 'text-surface');
+        btn.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+
+        articles.forEach(function (article) {
+          if (filter === 'all' || article.dataset.category === filter) {
+            article.style.display = '';
+          } else {
+            article.style.display = 'none';
+          }
+        });
+      });
+    });
+  })();
+</script>

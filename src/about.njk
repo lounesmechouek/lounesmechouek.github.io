@@ -1,0 +1,104 @@
+---
+layout: base.njk
+activePage: about
+pageTitle: About
+permalink: /about/
+---
+
+<section class="pt-32 pb-24 max-w-7xl mx-auto px-8">
+  <!-- Hero: Portrait & Short Bio -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-32 items-end">
+    <div class="lg:col-span-5 aspect-[4/5] bg-surface-container-low overflow-hidden rounded-lg">
+      <img class="w-full h-full object-cover grayscale opacity-90 transition-opacity duration-700 hover:opacity-100" src="{{ site.portraitImage }}" alt="Portrait"/>
+    </div>
+    <div class="lg:col-span-7 pb-4">
+      <div class="font-label text-xs text-primary font-bold tracking-widest mb-6 flex items-center gap-4">
+        <span class="h-[1px] w-12 bg-outline-variant/30"></span>
+        CURRICULUM VITAE
+      </div>
+      <h1 class="font-headline text-5xl md:text-7xl leading-tight mb-8 font-normal text-on-surface">
+        Seeking the signal within the <span class="italic">latent space</span> of computation.
+      </h1>
+      <p class="text-xl md:text-2xl text-on-surface-variant font-light leading-relaxed max-w-2xl">
+        {{ about.shortBio }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Narrative Bio -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 mb-40">
+    <aside class="lg:col-span-4">
+      <div class="sticky top-32 space-y-12">
+        <div>
+          <h3 class="text-sm font-semibold tracking-widest text-primary uppercase mb-6">Connect</h3>
+          <ul class="space-y-4 font-body text-sm">
+            <li>
+              <a class="flex items-center group text-on-surface-variant hover:text-secondary transition-colors" href="{{ site.links.github }}" target="_blank" rel="noopener">
+                <span class="w-8">01</span>
+                <span class="border-b border-transparent group-hover:border-secondary pb-0.5">GitHub</span>
+                <span class="material-symbols-outlined text-xs ml-2 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">arrow_outward</span>
+              </a>
+            </li>
+            <li>
+              <a class="flex items-center group text-on-surface-variant hover:text-secondary transition-colors" href="{{ site.links.linkedin }}" target="_blank" rel="noopener">
+                <span class="w-8">02</span>
+                <span class="border-b border-transparent group-hover:border-secondary pb-0.5">LinkedIn</span>
+                <span class="material-symbols-outlined text-xs ml-2 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">arrow_outward</span>
+              </a>
+            </li>
+            <li>
+              <a class="flex items-center group text-on-surface-variant hover:text-secondary transition-colors" href="{{ site.links.medium }}" target="_blank" rel="noopener">
+                <span class="w-8">03</span>
+                <span class="border-b border-transparent group-hover:border-secondary pb-0.5">Medium</span>
+                <span class="material-symbols-outlined text-xs ml-2 opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0">arrow_outward</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div class="pt-8">
+          <div class="p-8 bg-surface-container-low rounded-lg">
+            <span class="material-symbols-outlined text-primary text-3xl mb-4">auto_awesome</span>
+            <p class="text-sm italic text-on-surface-variant leading-relaxed">
+              "{{ about.quote }}"
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
+    <div class="lg:col-span-8 space-y-12">
+      <div class="space-y-8 text-lg text-on-surface-variant leading-relaxed font-body">
+        {% for paragraph in about.longBio %}
+        <p>{{ paragraph }}</p>
+        {% endfor %}
+      </div>
+
+      <!-- Current Inquiries -->
+      <div class="pt-16">
+        <h2 class="font-headline text-3xl font-normal mb-10 text-on-surface italic">Current Inquiries</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {% for inquiry in about.currentInquiries %}
+          <div class="p-8 bg-surface-container-low rounded-lg hover:bg-surface-container-high transition-colors duration-300 {{ 'md:col-span-2' if loop.last and about.currentInquiries.length % 2 == 1 }}">
+            <span class="font-label text-xs text-primary opacity-60 mb-4 block">{{ inquiry.number }} / {{ inquiry.area | upper }}</span>
+            <h4 class="font-headline text-xl mb-4">{{ inquiry.title }}</h4>
+            <p class="text-sm leading-relaxed text-on-surface-variant">{{ inquiry.description }}</p>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Manifesto Callout -->
+  <div class="w-full py-32 px-12 bg-surface-container-lowest rounded-xl text-center border border-outline-variant/10">
+    <h2 class="font-headline text-4xl md:text-5xl italic mb-8 text-on-surface">{{ about.manifestoTitle }}</h2>
+    <p class="max-w-2xl mx-auto text-on-surface-variant leading-loose mb-12">
+      {{ about.manifesto }}
+    </p>
+    {% if about.manifestoCta %}
+    <a href="{{ about.manifestoCta.url }}" class="inline-flex items-center gap-2 px-8 py-4 bg-primary text-on-primary font-label text-sm tracking-wider uppercase rounded-lg hover:opacity-90 transition-opacity">
+      {{ about.manifestoCta.label }}
+      <span class="material-symbols-outlined text-base">arrow_forward</span>
+    </a>
+    {% endif %}
+  </div>
+</section>

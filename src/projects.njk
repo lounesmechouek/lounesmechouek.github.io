@@ -1,0 +1,71 @@
+---
+layout: base.njk
+activePage: projects
+pageTitle: Projects
+permalink: /projects/
+---
+
+<section class="pt-32 pb-24 max-w-7xl mx-auto px-8">
+  <!-- Hero -->
+  <div class="max-w-3xl mb-32">
+    <p class="font-label text-xs tracking-widest uppercase font-semibold text-secondary mb-4">Selected Portfolio</p>
+    <h1 class="font-headline text-5xl md:text-7xl font-normal leading-tight text-on-surface mb-8">Case Studies in Computational Inference &amp; Neural Architectures.</h1>
+    <p class="font-body text-xl text-on-surface-variant leading-relaxed">
+      A rigorous examination of applied machine learning, focusing on scalability, interpretability, and the intersection of optimization and deep learning.
+    </p>
+  </div>
+
+  <!-- Project List -->
+  <div class="space-y-32">
+    {% for project in projects %}
+    <article class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start" id="{{ project.slug }}">
+      <div class="lg:col-span-7 {{ 'order-2 lg:order-1' if loop.index % 2 == 0 else '' }}">
+        <div class="aspect-[16/10] bg-surface-container-low rounded-lg overflow-hidden group mb-8">
+          <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700" src="{{ project.coverImage }}" alt="{{ project.title }}"/>
+        </div>
+      </div>
+      <div class="lg:col-span-5 {{ 'order-1 lg:order-2' if loop.index % 2 == 0 else '' }} sticky top-32">
+        <div class="mb-4">
+          <span class="font-label text-[11px] font-bold text-secondary tracking-widest uppercase">{{ project.category }}</span>
+        </div>
+        <h2 class="font-headline text-4xl font-medium mb-6 text-on-surface">{{ project.title }}</h2>
+        <p class="font-body text-lg text-on-surface mb-10 leading-relaxed italic">{{ project.summary }}</p>
+        <div class="space-y-10">
+          <section>
+            <h3 class="font-label text-xs font-bold text-outline-variant uppercase tracking-widest mb-3">Why it matters</h3>
+            <p class="font-body text-sm text-on-surface-variant leading-relaxed">{{ project.whyItMatters }}</p>
+          </section>
+          <section>
+            <h3 class="font-label text-xs font-bold text-outline-variant uppercase tracking-widest mb-3">Technical Challenge</h3>
+            <p class="font-body text-sm text-on-surface-variant leading-relaxed">{{ project.technicalChallenge }}</p>
+          </section>
+          <section>
+            <h3 class="font-label text-xs font-bold text-outline-variant uppercase tracking-widest mb-3">Methodology / Evaluation</h3>
+            <p class="font-body text-sm text-on-surface-variant leading-relaxed">{{ project.methodology }}</p>
+          </section>
+          <div class="pt-8 flex flex-wrap gap-4 border-t border-outline-variant/15">
+            {% if project.links.repo %}
+            <a class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-on-primary rounded-md text-sm font-medium hover:bg-primary-dim transition-colors" href="{{ project.links.repo }}" target="_blank" rel="noopener">
+              <span class="material-symbols-outlined text-[18px]">terminal</span>
+              Repository
+            </a>
+            {% endif %}
+            {% if project.links.report %}
+            <a class="inline-flex items-center gap-2 px-6 py-3 bg-surface-container-highest text-on-surface-variant rounded-md text-sm font-medium hover:bg-surface-container-high transition-colors" href="{{ project.links.report }}">
+              <span class="material-symbols-outlined text-[18px]">description</span>
+              Technical Report
+            </a>
+            {% endif %}
+            {% if project.links.demo %}
+            <a class="inline-flex items-center gap-2 px-6 py-3 bg-surface-container-highest text-on-surface-variant rounded-md text-sm font-medium hover:bg-surface-container-high transition-colors" href="{{ project.links.demo }}" target="_blank" rel="noopener">
+              <span class="material-symbols-outlined text-[18px]">play_circle</span>
+              Demo
+            </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>

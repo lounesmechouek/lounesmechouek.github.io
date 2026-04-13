@@ -1,0 +1,112 @@
+---
+layout: base.njk
+activePage: experience
+pageTitle: Experience
+permalink: /experience/
+---
+
+<section class="pt-32 pb-24">
+  <!-- Hero -->
+  <header class="max-w-7xl mx-auto px-8 mb-24">
+    <div class="max-w-3xl">
+      <p class="font-label text-xs tracking-widest uppercase font-semibold text-secondary mb-4">Professional Trajectory</p>
+      <h1 class="font-headline text-5xl md:text-6xl text-on-surface mb-8 leading-tight">From clinical data pipelines to production AI systems.</h1>
+      <p class="font-body text-xl text-on-surface-variant leading-relaxed">
+        A retrospective of tenures at the frontier of machine learning, focusing on autonomous systems, Model training and inference, and the architecture of intelligence.
+      </p>
+    </div>
+  </header>
+
+  <!-- Timeline -->
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="flex flex-col space-y-32">
+      {% for role in experience %}
+      <article class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+        <div class="md:col-span-3">
+          <span class="font-label text-sm tracking-widest uppercase text-outline">{{ role.period }}</span>
+          <div class="mt-4 h-px w-12 bg-outline-variant opacity-30"></div>
+        </div>
+        <div class="md:col-span-9 {% if role.style == 'highlighted' %}bg-surface-container-low p-8 md:p-12 rounded-lg{% elif role.style == 'academic' %}bg-surface-container-lowest p-8 md:p-12 shadow-[0_20px_40px_rgba(45,52,51,0.06)] rounded-xl{% else %}p-8 md:p-12 border-l border-outline-variant/20{% endif %}">
+          <div class="flex flex-col md:flex-row justify-between items-baseline mb-8">
+            <div>
+              <h2 class="font-headline text-3xl text-on-surface mb-2">{{ role.role }}</h2>
+              <h3 class="font-body text-lg text-secondary font-medium tracking-tight">{{ role.company }}</h3>
+            </div>
+            <span class="font-label text-xs bg-surface-container-highest px-3 py-1 rounded-full text-on-surface-variant mt-4 md:mt-0">{{ role.location | upper }}</span>
+          </div>
+
+          {% if role.quote %}
+          <p class="mb-6 italic text-lg leading-relaxed text-on-surface-variant">"{{ role.quote }}"</p>
+          {% endif %}
+
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {% if role.focus.length %}
+            <div>
+              <h4 class="font-label text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-4">Key Systems</h4>
+              <ul class="space-y-4">
+                {% for item in role.focus %}
+                <li class="flex items-start">
+                  <span class="material-symbols-outlined text-secondary mr-3 text-sm mt-1">hub</span>
+                  <p class="font-body text-on-surface text-sm leading-relaxed">{{ item }}</p>
+                </li>
+                {% endfor %}
+              </ul>
+            </div>
+            {% endif %}
+
+            <div class="{{ 'lg:col-span-2' if not role.focus.length }}">
+              <h4 class="font-label text-xs uppercase tracking-widest font-bold text-on-surface-variant mb-4">{{ 'Technical Impact' if role.style == 'default' else 'Ownership & Impact' }}</h4>
+              <p class="font-body text-on-surface-variant leading-relaxed">{{ role.ownership }}</p>
+
+              {% if role.domains.length %}
+              <div class="flex flex-wrap gap-2 mt-6">
+                {% for domain in role.domains %}
+                <span class="px-3 py-1 bg-surface-container-lowest border border-outline-variant/10 text-xs font-medium rounded-full">{{ domain }}</span>
+                {% endfor %}
+              </div>
+              {% endif %}
+
+              {% if role.links.length %}
+              <div class="flex flex-wrap gap-4 mt-8">
+                {% for link in role.links %}
+                <a href="{{ link.url }}" class="inline-flex items-center gap-1.5 text-xs font-medium text-secondary hover:gap-3 transition-all" target="_blank" rel="noopener">
+                  <span class="material-symbols-outlined text-sm">link</span>
+                  {{ link.label }}
+                </a>
+                {% endfor %}
+              </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  </div>
+
+  <!-- Education -->
+  <div class="max-w-7xl mx-auto px-8 mt-40">
+    <div class="flex flex-col space-y-0">
+      <div class="mb-16">
+        <span class="font-label text-xs font-semibold tracking-widest uppercase text-outline mb-4 block">Academic Formation</span>
+        <h2 class="font-headline text-4xl text-on-surface">Education</h2>
+      </div>
+      <div class="space-y-6">
+        {% for item in education %}
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-center py-8 border-b border-outline-variant/15">
+          <div class="md:col-span-2">
+            <span class="font-label text-sm tracking-widest uppercase text-outline">{{ item.period }}</span>
+          </div>
+          <div class="md:col-span-7">
+            <h3 class="font-headline text-2xl text-on-surface mb-1">{{ item.degree }}</h3>
+            <p class="font-body text-secondary font-medium">{{ item.institution }}</p>
+          </div>
+          <div class="md:col-span-3 text-right hidden md:block">
+            <span class="font-label text-xs bg-surface-container-high px-3 py-1 rounded-full text-on-surface-variant">{{ item.location | upper }}</span>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
