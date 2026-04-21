@@ -4,7 +4,7 @@
   "tagline": "At the Intersection of Engineering and Applied Intelligence.",
   "description": "Developing robust methodologies and production-grade systems for high-stakes AI, with a focus on methodology, clinical NLP, high-quality synthetic data generation, and LLM-driven systems.",
   "heroImage": "/assets/images/hero.png",
-  "portraitImage": "/assets/images/portrait.PNG",
+  "portraitImage": "/assets/images/portrait.jpg",
   "email": "mechouek.contact@gmail.com",
   "links": {
     "github": "https://github.com/lounesmechouek",
@@ -15,7 +15,7 @@
     {
       "number": "01",
       "title": "Reliable AI Systems",
-      "description": "Building controlled LLM, RAG and agentic systems with validation evaluation, and deterministic safeguards."
+      "description": "Building controlled LLM, RAG and agentic systems with validation, evaluation, and deterministic safeguards."
     },
     {
       "number": "02",
